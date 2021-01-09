@@ -23,6 +23,8 @@ class MenuScene extends Phaser.Scene {
         this.load.image('bullet2','heroimages/bullet2.png');
         this.load.image('bullet3','heroimages/bullet3.png');
         this.load.image('bullet4','heroimages/bullet4.png');
+        this.load.image('bullet5','heroimages/bullet5.png');
+        
         this.load.image('robot1','heroimages/robot1.png');
         this.load.image('inventoryButton','heroimages/inventoryButton.png');
         this.load.image('invBg','heroimages/invBg.png');
@@ -170,9 +172,9 @@ class MenuScene extends Phaser.Scene {
                 repeat: -1
             }); 
         }
-        gameState.createTroop = function(scene,sprite,team,xloc,yloc,health,damage,speed,attackSpeed,range,projectileSpeed,attackType,bulletSprite){
+        gameState.createTroop = function(scene,sprite,depth,team,xloc,yloc,health,damage,speed,attackSpeed,range,projectileSpeed,attackType,bulletSprite){
             if(team == 1){
-                gameState.team1.create(xloc,yloc,`${sprite}`);
+                gameState.team1.create(xloc,yloc,`${sprite}`).setDepth(depth);
                 gameState.first = gameState.team1.getChildren();
                 gameState.enemies = gameState.team2.getChildren();
                 var selected = gameState.first[gameState.team1.getChildren().length-1];
@@ -180,7 +182,7 @@ class MenuScene extends Phaser.Scene {
                 troopBehavior(scene,selected,1,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,attackType,damage,bulletSprite);
             }
             else if(team == 2){
-                gameState.team2.create(xloc,yloc,`${sprite}`);
+                gameState.team2.create(xloc,yloc,`${sprite}`).setDepth(depth);
                 gameState.first = gameState.team2.getChildren();
                 gameState.enemies = gameState.team1.getChildren();
                 var selected = gameState.first[gameState.team2.getChildren().length-1];
@@ -199,13 +201,13 @@ class MenuScene extends Phaser.Scene {
             delay: (Math.ceil(Math.random()*200)+200),
             callback: ()=>{ 
                 var random = Math.ceil(Math.random()*8);
-                if(random == 1 || random == 2 || random == 3 || random == 4 || random == 5){ gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
+                if(random == 1 || random == 2 || random == 3 || random == 4 || random == 5){ gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
                 gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite);
                 }
-                else if (random == 6 || random == 7 ){ gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
+                else if (random == 6 || random == 7 ){ gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
                 gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite);
                 }
-                else if (random == 8){ gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
+                else if (random == 8){ gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
                 gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite);
                 }
             },  
@@ -219,15 +221,15 @@ class MenuScene extends Phaser.Scene {
             callback: ()=>{ 
                 var random = Math.ceil(Math.random()*8);
                 if(random == 1 || random == 2 || random == 3 || random == 4 || random == 5){
-                    gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite,1,0,Math.ceil(Math.random()*400)+50,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
+                    gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite,gameState.alienDrone.Tdepth,1,0,Math.ceil(Math.random()*400)+50,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
                 gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
                 }
                 else if(random == 6 || random == 7){
-                    gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,1,0,Math.ceil(Math.random()*400)+50,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
+                    gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,gameState.alienWalker.Tdepth,1,0,Math.ceil(Math.random()*400)+50,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
                 gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
                 }
                 else if(random == 8){
-                    gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,1,0,Math.ceil(Math.random()*400)+50,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
+                    gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,0,Math.ceil(Math.random()*400)+50,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
                 gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
                 }
             },  

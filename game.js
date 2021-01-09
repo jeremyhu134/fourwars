@@ -25,6 +25,7 @@ const game = new Phaser.Game(config);
 let gameState = {
     alienDrone: {
         Tsprite: 'aliendrone',
+        Tdepth : 0,
         Tdamage: 8,
         Thealth: 30,
         TattackSpeed : 1000,
@@ -36,6 +37,7 @@ let gameState = {
     },
     alienWalker: {
         Tsprite: 'alienwalker',
+        Tdepth : 0,
         Tdamage: 20,
         Thealth: 50,
         TattackSpeed : 1500,
@@ -47,6 +49,7 @@ let gameState = {
     },
     alienMegaWalker: {
         Tsprite: 'alienmegawalker',
+        Tdepth : 1,
         Tdamage: 0.8,
         Thealth: 400,
         TattackSpeed : 10,
@@ -60,6 +63,7 @@ let gameState = {
     
    humanTrooper: {
         Tsprite: 'humantrooper',
+        Tdepth : 0,
         Tdamage: 2,
         Thealth: 15,
         TattackSpeed : 250,
@@ -71,6 +75,7 @@ let gameState = {
     },
     humanTank: {
         Tsprite: 'humantank',
+        Tdepth : 0,
         Tdamage: 70,
         Thealth: 150,
         TattackSpeed : 5000,
@@ -82,6 +87,7 @@ let gameState = {
     },
     humanBattleCruiser: {
         Tsprite: 'humanbattlecruiser',
+        Tdepth : 1,
         Tdamage: 100,
         Thealth: 450,
         TattackSpeed : 3000,
@@ -89,6 +95,6 @@ let gameState = {
         Trange: 275,
         TprojectileSpeed: 3000,
         TattackType: 'single',
-        TbulletSprite: 'bullet3'
+        TbulletSprite: 'bullet5'
     },
 }
