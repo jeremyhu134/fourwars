@@ -42,7 +42,7 @@ let gameState = {
         Thealth: 50,
         TattackSpeed : 1500,
         TSpeed : 90,
-        Trange: 200,
+        Trange: 225,
         TprojectileSpeed: 700,
         TattackType: 'single',
         TbulletSprite: 'bullet1'
