@@ -1,3 +1,5 @@
+var scrollLock = 0;
+
 class MenuScene extends Phaser.Scene {
     constructor() {
 		super({ key: 'MenuScene' })
@@ -30,6 +32,9 @@ class MenuScene extends Phaser.Scene {
         this.load.image('invBg','heroimages/invBg.png');
     }
     create() {
+        gameState.camera = this.cameras.main;
+        
+        
         gameState.globalScene = this;
         gameState.camera = this.cameras.main;
         gameState.input=this.input;
@@ -40,9 +45,10 @@ class MenuScene extends Phaser.Scene {
         gameState.team1 = this.physics.add.group();
         gameState.team2 = this.physics.add.group();
         gameState.createEnvironment = function(scene){
-            gameState.bg = scene.add.sprite(0,0,'bg').setOrigin(0,0).setDepth(0);  
-            gameState.inventoryButton = scene.add.sprite(940,440,'inventoryButton').setOrigin(0,0).setInteractive().setDepth(0);
-            //scene.scene.launch('InventoryScene');
+            gameState.select1 = gameState.team1.create(105,200,`alienhq`).setDepth(0);
+            gameState.select1.hhealth = 10000;
+            gameState.select2 = gameState.team2.create(1850,200,`alienhq`).setDepth(0);
+            gameState.select2.hhealth = 10000;
         }
         gameState.invOpen = false;
         gameState.createEnvironment(this);
@@ -201,13 +207,13 @@ class MenuScene extends Phaser.Scene {
             delay: (Math.ceil(Math.random()*200)+200),
             callback: ()=>{ 
                 var random = Math.ceil(Math.random()*65);
-                if(random >= 1 && random <= 50){ gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
+                if(random >= 1 && random <= 50){ gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
                 gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite);
                 }
-                else if (random >= 51 && random <= 63){ gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
+                else if (random >= 51 && random <= 63){ gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
                 gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite);
                 }
-                else if (random >= 64 && random <= 65){ gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,2,1100,Math.ceil(Math.random()*400)+50,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
+                else if (random >= 64 && random <= 65){ gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
                 gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite);
                 }
             },  
@@ -221,15 +227,15 @@ class MenuScene extends Phaser.Scene {
             callback: ()=>{ 
                 var random = Math.ceil(Math.random()*65);
                 if(random >= 1 && random <= 50){
-                    gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite,gameState.alienDrone.Tdepth,1,0,Math.ceil(Math.random()*400)+50,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
+                    gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite,gameState.alienDrone.Tdepth,1,-100,Math.ceil(Math.random()*390)+10,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
                 gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
                 }
                 else if(random >= 51 && random <= 63){
-                    gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,gameState.alienWalker.Tdepth,1,0,Math.ceil(Math.random()*400)+50,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
+                    gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,gameState.alienWalker.Tdepth,1,-100,Math.ceil(Math.random()*390)+10,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
                 gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
                 }
                 else if(random >= 64 && random <= 65){
-                    gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,0,Math.ceil(Math.random()*400)+50,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
+                    gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,-100,Math.ceil(Math.random()*390)+10,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
                 gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
                 }
             },  
@@ -239,16 +245,24 @@ class MenuScene extends Phaser.Scene {
         }); 
         
         this.input.on('pointerdown', function(pointer){
-            if(gameState.invOpen == false){
-                gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,1,gameState.input.x,gameState.input.y,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
-            }
+            gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,gameState.alienWalker.Tdepth,1,gameState.input.x,gameState.input.y,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
+                gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
         });
-        
-        
 	}
     update(){
         gameState.input=this.input;
+        if(gameState.input.x <= 10 && scrollLock > 0){
+            gameState.camera.x += 10;
+            scrollLock --;
+        }
+        else if(gameState.input.x >= window.innerWidth -330 && scrollLock < 90){
+            gameState.camera.x -= 10;
+            scrollLock ++;
+        }
+        
+        if(gameState.select1.hhealth <= 0 || gameState.select2.hhealth <= 0){
+            this.scene.pause('MenuScene');
+        }
     }
 }
 
@@ -257,7 +271,7 @@ class InventoryScene extends Phaser.Scene {
 		super({ key: 'InventoryScene' })
 	}
     create() {
-        gameState.invbg = this.add.sprite(0,0,'invBg').setOrigin(0,0).setDepth(0);
+        
     }
     upload() {
         

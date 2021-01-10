@@ -1,6 +1,6 @@
 const config = {
     type: Phaser.AUTO,
-    width : 1000,
+    width : 2000,
     height: 500,
     backgroundColor: "#C0C0C0",
     audio: {
@@ -39,8 +39,8 @@ let gameState = {
         Tsprite: 'alienwalker',
         Tdepth : 0,
         Tdamage: 20,
-        Thealth: 50,
-        TattackSpeed : 1500,
+        Thealth: 70,
+        TattackSpeed : 1333,
         TSpeed : 90,
         Trange: 225,
         TprojectileSpeed: 700,
