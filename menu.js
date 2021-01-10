@@ -6,6 +6,8 @@ class MenuScene extends Phaser.Scene {
 	}
     preload(){
         this.load.image('bullet','heroimages/bullet.png');
+        this.load.image('shopBar','heroimages/shopBar.png');
+        
         this.load.image('alienhq','heroimages/alienhq.png');
         this.load.image('aliendrone','heroimages/aliendrone.png');
         this.load.image('alienwalker','heroimages/alienwalker.png');
@@ -46,13 +48,65 @@ class MenuScene extends Phaser.Scene {
         gameState.team2 = this.physics.add.group();
         gameState.createEnvironment = function(scene){
             gameState.select1 = gameState.team1.create(105,200,`alienhq`).setDepth(0);
-            gameState.select1.hhealth = 10000;
+            gameState.select1.hhealth = 1000;
+            gameState.select1.UT = 'ground';
             gameState.select2 = gameState.team2.create(1850,200,`alienhq`).setDepth(0);
-            gameState.select2.hhealth = 10000;
+            gameState.select2.hhealth = 1000;
+            gameState.select1.UT = 'ground';
+            
+            var selectElement;
+            gameState.shopElements = [];
+            selectElement = scene.add.image(0,400,'shopBar').setOrigin(0,0).setDepth(2);
+            gameState.shopElements.push(selectElement);
+            selectElement = scene.add.text( 10, 10, `Gold : ${gameState.gold}`, {fill: '#OOOOOO', fontSize: '25px'}).setDepth(2);
+            gameState.shopElements.push(selectElement);
+            
+            selectElement = scene.add.image(20,420,gameState.humanTrooper.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+            selectElement.setScale(40/selectElement.displayWidth);
+            gameState.shopElements.push(selectElement);
+            selectElement.on('pointerdown', function(pointer){
+                if(gameState.gold >= gameState.humanTrooper.Tcost){
+                   gameState.gold -= gameState.humanTrooper.Tcost; 
+                    gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
+                gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TunitType,gameState.humanTrooper.TtargetType,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite);
+                }
+            });
+            
+            
+            selectElement = scene.add.image(90,420,gameState.humanTank.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+            selectElement.setScale(40/selectElement.displayWidth);
+            gameState.shopElements.push(selectElement);
+            selectElement.on('pointerdown', function(pointer){
+                if(gameState.gold >= gameState.humanTank.Tcost){
+                   gameState.gold -= gameState.humanTank.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
+                gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TunitType,gameState.humanTank.TtargetType,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite);
+                }
+            });
+            
+            
+            selectElement = scene.add.image(160,420,gameState.humanBattleCruiser.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+            selectElement.setScale(40/selectElement.displayWidth);
+            gameState.shopElements.push(selectElement);
+            selectElement.on('pointerdown', function(pointer){
+                if(gameState.gold >= gameState.humanBattleCruiser.Tcost){
+                   gameState.gold -= gameState.humanBattleCruiser.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
+                gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite);
+                }
+            });
         }
         gameState.invOpen = false;
-        gameState.createEnvironment(this);
+        gameState.gold = 0;
+        this.time.addEvent({
+            delay: 1000,
+            callback: ()=>{
+                gameState.gold += 10;
+            },  
+            startAt: 0,
+            timeScale: 1,
+            repeat: -1
+        }); 
         
+        gameState.createEnvironment(this);
         
         gameState.team1troops = this.physics.add.group();
         gameState.team1troops.getChildren().forEach(troop => {
@@ -102,7 +156,7 @@ class MenuScene extends Phaser.Scene {
             selected.health = maxHealth;
         }
         
-        function troopBehavior(scene,select,team,enemies,health,speed,ranges,attSpeed,PS,AT,damage,bulletSprite){
+        function troopBehavior(scene,select,team,enemies,health,speed,ranges,attSpeed,PS,UT,TT,AT,damage,bulletSprite){
             var targeted = false;
             var target = 0;
             var timer = scene.time.addEvent({
@@ -140,7 +194,13 @@ class MenuScene extends Phaser.Scene {
                                 var dist = Phaser.Math.Distance.BetweenPoints(target, select);
                             }
 
-                            if(dist < ranges && target == 0){
+                            if(dist < ranges && target == 0 && TT == 'ground&air'){
+                                target = enemies[i];
+                            }
+                            else if(dist < ranges && target == 0 && TT == 'ground' && enemies[i].UT == 'ground'){
+                                target = enemies[i];
+                            }
+                            else if(dist < ranges && target == 0 && TT == 'air' && enemies[i].UT == 'air'){
                                 target = enemies[i];
                             }
                             else if(dist > ranges || target.hhealth <= 0){
@@ -178,14 +238,16 @@ class MenuScene extends Phaser.Scene {
                 repeat: -1
             }); 
         }
-        gameState.createTroop = function(scene,sprite,depth,team,xloc,yloc,health,damage,speed,attackSpeed,range,projectileSpeed,attackType,bulletSprite){
+        gameState.createTroop = function(scene,sprite,depth,team,xloc,yloc,health,damage,speed,attackSpeed,range,projectileSpeed,unitType,targetType,attackType,bulletSprite){
             if(team == 1){
                 gameState.team1.create(xloc,yloc,`${sprite}`).setDepth(depth);
                 gameState.first = gameState.team1.getChildren();
                 gameState.enemies = gameState.team2.getChildren();
                 var selected = gameState.first[gameState.team1.getChildren().length-1];
                 selected.hhealth = health;
-                troopBehavior(scene,selected,1,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,attackType,damage,bulletSprite);
+                selected.UT = unitType;
+                console.log(selected.UT);
+                troopBehavior(scene,selected,1,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,unitType,targetType,attackType,damage,bulletSprite);
             }
             else if(team == 2){
                 gameState.team2.create(xloc,yloc,`${sprite}`).setDepth(depth);
@@ -193,40 +255,27 @@ class MenuScene extends Phaser.Scene {
                 gameState.enemies = gameState.team1.getChildren();
                 var selected = gameState.first[gameState.team2.getChildren().length-1];
                 selected.hhealth = health;
-                troopBehavior(scene,selected,2,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,attackType,damage,bulletSprite);
+                selected.UT = unitType; 
+                console.log(selected.UT);
+                troopBehavior(scene,selected,2,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,unitType,targetType,attackType,damage,bulletSprite);
             }
         }
         
-         gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,1,10000,10000,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType);
-        gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,2,10000,1000,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType);
-        
-        
         this.time.addEvent({
-            delay: (Math.ceil(Math.random()*200)+200),
+            delay: (Math.ceil(Math.random()*3000)+3000),
             callback: ()=>{ 
-                var random = Math.ceil(Math.random()*65);
-                /*if(random >= 1 && random <= 50){ gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
-                gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite);
-                }
-                else if (random >= 51 && random <= 63){ gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
-                gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite);
-                }
-                else if (random >= 64 && random <= 65){ gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
-                gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite);
-                }*/
+                var random = Math.ceil(Math.random()*63);
                 if(random >= 1 && random <= 50){
-                    gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite,gameState.alienDrone.Tdepth,1,-100,Math.ceil(Math.random()*390)+10,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
-                gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
+                    gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite+'red',gameState.alienDrone.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
+                gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
                 }
                 else if(random >= 51 && random <= 63){
-                    gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,gameState.alienWalker.Tdepth,1,-100,Math.ceil(Math.random()*390)+10,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
-                gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
+                    gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite+'red',gameState.alienWalker.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
+                gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TunitType,gameState.alienWalker.TtargetType,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
                 }
                 else if(random >= 64 && random <= 65){
-                    gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,-100,Math.ceil(Math.random()*390)+10,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
+                    gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite+'red',gameState.alienMegaWalker.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
+                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TunitType,gameState.alienMegaWalker.TtargetType,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
                 }
             },  
             startAt: 0,
@@ -234,43 +283,28 @@ class MenuScene extends Phaser.Scene {
             repeat: -1
         }); 
         
-        this.time.addEvent({
-            delay: (Math.ceil(Math.random()*200)+200),
-            callback: ()=>{ 
-                var random = Math.ceil(Math.random()*65);
-                if(random >= 1 && random <= 50){
-                    gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite+'red',gameState.alienDrone.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
-                gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
-                }
-                else if(random >= 51 && random <= 63){
-                    gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite+'red',gameState.alienWalker.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
-                gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
-                }
-                else if(random >= 64 && random <= 65){
-                    gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite+'red',gameState.alienMegaWalker.Tdepth,2,2100,Math.ceil(Math.random()*390)+10,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
-                }
-            },  
-            startAt: 0,
-            timeScale: 1,
-            repeat: -1
-        }); 
-        
-        this.input.on('pointerdown', function(pointer){
+        /*this.input.on('pointerdown', function(pointer){
             for(var i = 0; i <1 ; i++){
                 gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,gameState.input.x,gameState.input.y,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
                 gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
             }
-        });
+        });*/
 	}
     update(){
         gameState.input=this.input;
+        gameState.shopElements[1].setText(`Gold : ${gameState.gold}`);
         if(gameState.input.x <= 10 && scrollLock > 0){
             gameState.camera.x += 10;
+            for(var i = 0; i <gameState.shopElements.length ; i++){
+                gameState.shopElements[i].x -= 10;
+            }
             scrollLock --;
         }
         else if(gameState.input.x >= window.innerWidth -330 && scrollLock < 90){
             gameState.camera.x -= 10;
+            for(var i = 0; i <gameState.shopElements.length ; i++){
+                gameState.shopElements[i].x += 10;
+            }
             scrollLock ++;
         }
         
