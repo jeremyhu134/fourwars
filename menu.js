@@ -1,10 +1,22 @@
-var scrollLock = 0;
-
 class MenuScene extends Phaser.Scene {
     constructor() {
 		super({ key: 'MenuScene' })
 	}
     preload(){
+        this.load.image('gameTitle','heroimages/gameTitle.png');
+        this.load.image('gameTitleImage','heroimages/gameTitleImage.png');
+        this.load.image('skirmishButton','heroimages/skirmishButton.png');
+        this.load.image('startButton','heroimages/startButton.png');
+        
+        this.load.image('alienBanner','heroimages/alienBanner.png');
+        this.load.image('humanBanner','heroimages/humanBanner.png');
+        this.load.image('demonBanner','heroimages/demonBanner.png');
+        this.load.image('entossBanner','heroimages/entossBanner.png');
+        this.load.image('alienDescription','heroimages/alienDescription.png');
+        this.load.image('humanDescription','heroimages/humanDescription.png');
+        this.load.image('demonDescription','heroimages/demonDescription.png');
+        this.load.image('entossDescription','heroimages/entossDescription.png');
+        
         this.load.image('bullet','heroimages/bullet.png');
         this.load.image('shopBar','heroimages/shopBar.png');
         
@@ -13,13 +25,20 @@ class MenuScene extends Phaser.Scene {
         this.load.image('alienwalker','heroimages/alienwalker.png');
         this.load.image('alienmegawalker','heroimages/alienmegawalker.png');
         
+        this.load.image('alienhqred','heroimages/alienhqred.png');
         this.load.image('aliendronered','heroimages/aliendronered.png');
         this.load.image('alienwalkerred','heroimages/alienwalkerred.png');
         this.load.image('alienmegawalkerred','heroimages/alienmegawalkerred.png');
         
+        this.load.image('humanhq','heroimages/humanhq.png');
         this.load.image('humantrooper','heroimages/humantrooper.png');
         this.load.image('humantank','heroimages/humantank.png');
         this.load.image('humanbattlecruiser','heroimages/humanbattlecruiser.png');
+        
+        this.load.image('humanhqred','heroimages/humanhqred.png');
+        this.load.image('humantrooperred','heroimages/humantrooperred.png');
+        this.load.image('humantankred','heroimages/humantankred.png');
+        this.load.image('humanbattlecruiserred','heroimages/humanbattlecruiserred.png');
         
         this.load.image('bg','heroimages/bg.png');
         this.load.image('soldier76','heroimages/soldier76.png');
@@ -34,6 +53,101 @@ class MenuScene extends Phaser.Scene {
         this.load.image('invBg','heroimages/invBg.png');
     }
     create() {
+        gameState.faction = "NONE";
+        this.add.image(10,10,'gameTitleImage').setOrigin(0,0).setScale(77/300);
+        this.add.image(97,10,'gameTitle').setOrigin(0,0);
+        
+        var globalScene = this;
+        
+        var skirmishButton = this.add.image(10,120,'skirmishButton').setOrigin(0,0).setInteractive();
+        skirmishButton.on('pointerdown', function(pointer){
+            globalScene.scene.stop('MenuScene');
+            globalScene.scene.start('SkirmishScene');
+        });
+    }
+    upload() {
+        
+    }
+}
+
+
+
+
+
+
+
+
+class SkirmishScene extends Phaser.Scene {
+    constructor() {
+		super({ key: 'SkirmishScene' })
+	}
+    preload(){
+        
+    }
+    create() {
+        this.add.image(10,10,'gameTitleImage').setOrigin(0,0).setScale(77/300);
+        this.add.image(97,10,'gameTitle').setOrigin(0,0);
+        
+        var globalScene = this;
+        
+        var humanButton = this.add.image(10,120,'humanBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        humanButton.on('pointerdown', function(pointer){
+            gameState.faction = "human";
+        });
+        this.add.image(10,175,'humanDescription').setOrigin(0,0).setScale(50/48).setInteractive();
+        
+        var alienButton = this.add.image(515,120,'alienBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        alienButton.on('pointerdown', function(pointer){
+            gameState.faction = "alien";
+        });
+        this.add.image(515,175,'alienDescription').setOrigin(0,0).setScale(50/48).setInteractive();
+        
+        var demonButton = this.add.image(10,250,'demonBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        demonButton.on('pointerdown', function(pointer){
+            gameState.faction = "human";
+        });
+        this.add.image(5,305,'demonDescription').setOrigin(0,0).setScale(50/48).setInteractive();
+        
+        var entossButton = this.add.image(515,250,'entossBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        entossButton.on('pointerdown', function(pointer){
+            gameState.faction = "human";
+        });
+        this.add.image(520,305,'entossDescription').setOrigin(0,0).setScale(50/48).setInteractive();
+        
+        var startButton = this.add.image(10,450,'startButton').setOrigin(0,0).setScale(40/59).setInteractive();
+        startButton.on('pointerdown', function(pointer){
+            if(gameState.faction !== "NONE"){
+                globalScene.scene.stop('SkirmishScene');
+                globalScene.scene.start('GameScene');
+            }
+        });
+    }
+    upload() {
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+var scrollLock = 0;
+
+class GameScene extends Phaser.Scene {
+    constructor() {
+		super({ key: 'GameScene' })
+	}
+    preload(){
+        
+    }
+    create() {
         gameState.camera = this.cameras.main;
         
         
@@ -46,13 +160,16 @@ class MenuScene extends Phaser.Scene {
         gameState.bullets = this.physics.add.group();
         gameState.team1 = this.physics.add.group();
         gameState.team2 = this.physics.add.group();
+        
+        gameState.enemyfaction = "alien";
+        
         gameState.createEnvironment = function(scene){
-            gameState.select1 = gameState.team1.create(105,200,`alienhq`).setDepth(0);
+            gameState.select1 = gameState.team1.create(105,200,`${gameState.faction}hq`).setDepth(0);
             gameState.select1.hhealth = 1000;
             gameState.select1.UT = 'ground';
-            gameState.select2 = gameState.team2.create(1850,200,`alienhq`).setDepth(0);
+            gameState.select2 = gameState.team2.create(1850,200,`${gameState.enemyfaction}hqred`).setDepth(0).setFlipX(true);
             gameState.select2.hhealth = 1000;
-            gameState.select1.UT = 'ground';
+            gameState.select2.UT = 'ground';
             
             var selectElement;
             gameState.shopElements = [];
@@ -61,38 +178,74 @@ class MenuScene extends Phaser.Scene {
             selectElement = scene.add.text( 10, 10, `Gold : ${gameState.gold}`, {fill: '#OOOOOO', fontSize: '25px'}).setDepth(2);
             gameState.shopElements.push(selectElement);
             
-            selectElement = scene.add.image(20,420,gameState.humanTrooper.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
-            selectElement.setScale(40/selectElement.displayWidth);
-            gameState.shopElements.push(selectElement);
-            selectElement.on('pointerdown', function(pointer){
-                if(gameState.gold >= gameState.humanTrooper.Tcost){
-                   gameState.gold -= gameState.humanTrooper.Tcost; 
-                    gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
-                gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TunitType,gameState.humanTrooper.TtargetType,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite);
-                }
-            });
-            
-            
-            selectElement = scene.add.image(90,420,gameState.humanTank.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
-            selectElement.setScale(40/selectElement.displayWidth);
-            gameState.shopElements.push(selectElement);
-            selectElement.on('pointerdown', function(pointer){
-                if(gameState.gold >= gameState.humanTank.Tcost){
-                   gameState.gold -= gameState.humanTank.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
-                gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TunitType,gameState.humanTank.TtargetType,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite);
-                }
-            });
-            
-            
-            selectElement = scene.add.image(160,420,gameState.humanBattleCruiser.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
-            selectElement.setScale(40/selectElement.displayWidth);
-            gameState.shopElements.push(selectElement);
-            selectElement.on('pointerdown', function(pointer){
-                if(gameState.gold >= gameState.humanBattleCruiser.Tcost){
-                   gameState.gold -= gameState.humanBattleCruiser.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
-                gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite);
-                }
-            });
+            if(gameState.faction == "human"){
+                selectElement = scene.add.image(20,420,gameState.humanTrooper.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.humanTrooper.Tcost){
+                       gameState.gold -= gameState.humanTrooper.Tcost; 
+                        gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
+                    gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TunitType,gameState.humanTrooper.TtargetType,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite);
+                    }
+                });
+
+
+                selectElement = scene.add.image(90,420,gameState.humanTank.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.humanTank.Tcost){
+                       gameState.gold -= gameState.humanTank.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
+                    gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TunitType,gameState.humanTank.TtargetType,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite);
+                    }
+                });
+
+
+                selectElement = scene.add.image(160,420,gameState.humanBattleCruiser.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.humanBattleCruiser.Tcost){
+                       gameState.gold -= gameState.humanBattleCruiser.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
+                    gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite);
+                    }
+                });
+            }
+            else if(gameState.faction == "alien"){
+                selectElement = scene.add.image(20,420,gameState.alienDrone.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.alienDrone.Tcost){
+                       gameState.gold -= gameState.alienDrone.Tcost; 
+                        gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite,gameState.alienDrone.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
+                    gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
+                    }
+                });
+
+
+                selectElement = scene.add.image(90,420,gameState.alienWalker.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.alienWalker.Tcost){
+                       gameState.gold -= gameState.alienWalker.Tcost; gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,gameState.alienWalker.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
+                    gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TunitType,gameState.alienWalker.TtargetType,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
+                    }
+                });
+
+
+                selectElement = scene.add.image(160,420,gameState.alienMegaWalker.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.alienMegaWalker.Tcost){
+                       gameState.gold -= gameState.alienMegaWalker.Tcost; gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
+                    gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TunitType,gameState.alienMegaWalker.TtargetType,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
+                    }
+                });
+            }
         }
         gameState.invOpen = false;
         gameState.gold = 0;
@@ -309,19 +462,8 @@ class MenuScene extends Phaser.Scene {
         }
         
         if(gameState.select1.hhealth <= 0 || gameState.select2.hhealth <= 0){
-            this.scene.pause('MenuScene');
+            this.scene.stop('GameScene');
+            this.scene.start('MenuScene');
         }
-    }
-}
-
-class InventoryScene extends Phaser.Scene {
-    constructor() {
-		super({ key: 'InventoryScene' })
-	}
-    create() {
-        
-    }
-    upload() {
-        
     }
 }
