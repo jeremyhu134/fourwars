@@ -115,4 +115,50 @@ let gameState = {
         TattackType: 'single',
         TbulletSprite: 'bullet5'
     },
+    
+    demonCrawler: {
+        Tsprite: 'demoncrawler',
+        Tcost: 10,
+        Tdepth : 0,
+        Tdamage: 5,
+        Thealth: 20,
+        TattackSpeed : 500,
+        TSpeed : 160,
+        Trange: 60,
+        TprojectileSpeed: 1000,
+        TunitType: 'ground',
+        TtargetType: 'ground',
+        TattackType: 'single',
+        TbulletSprite: 'bullet6'
+    },
+    demonFlarer: {
+        Tsprite: 'demonflarer',
+        Tcost: 25,
+        Tdepth : 0,
+        Tdamage: 10,
+        Thealth: 50,
+        TattackSpeed : 750,
+        TSpeed : 130,
+        Trange: 150,
+        TprojectileSpeed: 1000,
+        TunitType: 'ground',
+        TtargetType: 'ground&air',
+        TattackType: 'single',
+        TbulletSprite: 'bullet7'
+    },
+    demonFly: {
+        Tsprite: 'demonfly',
+        Tcost: 75,
+        Tdepth : 0,
+        Tdamage: 40,
+        Thealth: 125,
+        TattackSpeed : 1000,
+        TSpeed : 175,
+        Trange: 125,
+        TprojectileSpeed: 1000,
+        TunitType: 'air',
+        TtargetType: 'ground&air',
+        TattackType: 'single',
+        TbulletSprite: 'bullet7'
+    },
 }

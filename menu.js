@@ -40,6 +40,11 @@ class MenuScene extends Phaser.Scene {
         this.load.image('humantankred','heroimages/humantankred.png');
         this.load.image('humanbattlecruiserred','heroimages/humanbattlecruiserred.png');
         
+        this.load.image('demonhq','heroimages/demonhq.png');
+        this.load.image('demoncrawler','heroimages/demoncrawler.png');
+        this.load.image('demonflarer','heroimages/demonflarer.png');
+        this.load.image('demonfly','heroimages/demonfly.png');
+        
         this.load.image('bg','heroimages/bg.png');
         this.load.image('soldier76','heroimages/soldier76.png');
         this.load.image('bullet1','heroimages/bullet1.png');
@@ -47,6 +52,8 @@ class MenuScene extends Phaser.Scene {
         this.load.image('bullet3','heroimages/bullet3.png');
         this.load.image('bullet4','heroimages/bullet4.png');
         this.load.image('bullet5','heroimages/bullet5.png');
+        this.load.image('bullet6','heroimages/bullet6.png');
+        this.load.image('bullet7','heroimages/bullet7.png');
         
         this.load.image('robot1','heroimages/robot1.png');
         this.load.image('inventoryButton','heroimages/inventoryButton.png');
@@ -56,7 +63,7 @@ class MenuScene extends Phaser.Scene {
         gameState.faction = "NONE";
         this.add.image(10,10,'gameTitleImage').setOrigin(0,0).setScale(77/300);
         this.add.image(97,10,'gameTitle').setOrigin(0,0);
-        
+         
         var globalScene = this;
         
         var skirmishButton = this.add.image(10,120,'skirmishButton').setOrigin(0,0).setInteractive();
@@ -104,7 +111,7 @@ class SkirmishScene extends Phaser.Scene {
         
         var demonButton = this.add.image(10,250,'demonBanner').setOrigin(0,0).setScale(50/153).setInteractive();
         demonButton.on('pointerdown', function(pointer){
-            gameState.faction = "human";
+            gameState.faction = "demon";
         });
         this.add.image(5,305,'demonDescription').setOrigin(0,0).setScale(50/48).setInteractive();
         
@@ -138,7 +145,7 @@ class SkirmishScene extends Phaser.Scene {
 
 
 
-var scrollLock = 0;
+
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -149,7 +156,7 @@ class GameScene extends Phaser.Scene {
     }
     create() {
         gameState.camera = this.cameras.main;
-        
+        gameState.scrollLock = 0;
         
         gameState.globalScene = this;
         gameState.camera = this.cameras.main;
@@ -165,11 +172,14 @@ class GameScene extends Phaser.Scene {
         
         gameState.createEnvironment = function(scene){
             gameState.select1 = gameState.team1.create(105,200,`${gameState.faction}hq`).setDepth(0);
-            gameState.select1.hhealth = 1000;
+            gameState.select1.hhealth = 10000;
             gameState.select1.UT = 'ground';
             gameState.select2 = gameState.team2.create(1850,200,`${gameState.enemyfaction}hqred`).setDepth(0).setFlipX(true);
-            gameState.select2.hhealth = 1000;
+            gameState.select2.hhealth = 10000;
             gameState.select2.UT = 'ground';
+            
+            gameState.goldProduction = 10;
+            gameState.randomTime = 3000;
             
             var selectElement;
             gameState.shopElements = [];
@@ -246,18 +256,45 @@ class GameScene extends Phaser.Scene {
                     }
                 });
             }
+            else if(gameState.faction == "demon"){
+                selectElement = scene.add.image(20,420,gameState.demonCrawler.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.demonCrawler.Tcost){
+                       gameState.gold -= gameState.demonCrawler.Tcost; 
+                        gameState.createTroop(gameState.globalScene,gameState.demonCrawler.Tsprite,gameState.demonCrawler.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.demonCrawler.Thealth,gameState.demonCrawler.Tdamage,gameState.demonCrawler.TSpeed,gameState.demonCrawler.TattackSpeed,
+                    gameState.demonCrawler.Trange,gameState.demonCrawler.TprojectileSpeed,gameState.demonCrawler.TunitType,gameState.demonCrawler.TtargetType,gameState.demonCrawler.TattackType,gameState.demonCrawler.TbulletSprite);
+                    }
+                });
+
+
+                selectElement = scene.add.image(90,420,gameState.demonFlarer.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.demonFlarer.Tcost){
+                       gameState.gold -= gameState.demonFlarer.Tcost; gameState.createTroop(gameState.globalScene,gameState.demonFlarer.Tsprite,gameState.demonFlarer.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.demonFlarer.Thealth,gameState.demonFlarer.Tdamage,gameState.demonFlarer.TSpeed,gameState.demonFlarer.TattackSpeed,
+                    gameState.demonFlarer.Trange,gameState.demonFlarer.TprojectileSpeed,gameState.demonFlarer.TunitType,gameState.demonFlarer.TtargetType,gameState.demonFlarer.TattackType,gameState.demonFlarer.TbulletSprite);
+                    }
+                });
+
+
+                selectElement = scene.add.image(160,420,gameState.demonFly.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.demonFly.Tcost){
+                       gameState.gold -= gameState.demonFly.Tcost; gameState.createTroop(gameState.globalScene,gameState.demonFly.Tsprite,gameState.demonFly.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.demonFly.Thealth,gameState.demonFly.Tdamage,gameState.demonFly.TSpeed,gameState.demonFly.TattackSpeed,
+                    gameState.demonFly.Trange,gameState.demonFly.TprojectileSpeed,gameState.demonFly.TunitType,gameState.demonFly.TtargetType,gameState.demonFly.TattackType,gameState.demonFly.TbulletSprite);
+                    }
+                });
+            }
         }
         gameState.invOpen = false;
         gameState.gold = 0;
-        this.time.addEvent({
-            delay: 1000,
-            callback: ()=>{
-                gameState.gold += 10;
-            },  
-            startAt: 0,
-            timeScale: 1,
-            repeat: -1
-        }); 
+        
+        
         
         gameState.createEnvironment(this);
         
@@ -414,8 +451,8 @@ class GameScene extends Phaser.Scene {
             }
         }
         
-        this.time.addEvent({
-            delay: (Math.ceil(Math.random()*3000)+3000),
+        var enemyTroopsTimer = this.time.addEvent({
+            delay: (Math.ceil(Math.random()*gameState.randomTime)+gameState.randomTime),
             callback: ()=>{ 
                 var random = Math.ceil(Math.random()*63);
                 if(random >= 1 && random <= 50){
@@ -436,6 +473,27 @@ class GameScene extends Phaser.Scene {
             repeat: -1
         }); 
         
+        this.time.addEvent({
+            delay: 1000,
+            callback: ()=>{
+                gameState.gold += gameState.goldProduction;
+            },  
+            startAt: 0,
+            timeScale: 1,
+            repeat: -1
+        }); 
+        this.time.addEvent({
+            delay: 60000,
+            callback: ()=>{
+                gameState.goldProduction += 5;
+                gameState.randomTime *= 0.5;
+                enemyTroopsTimer.delay = (Math.ceil(Math.random()*gameState.randomTime)+gameState.randomTime);
+            },  
+            startAt: 0,
+            timeScale: 1,
+            repeat: -1
+        }); 
+        
         /*this.input.on('pointerdown', function(pointer){
             for(var i = 0; i <1 ; i++){
                 gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,gameState.input.x,gameState.input.y,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
@@ -446,19 +504,19 @@ class GameScene extends Phaser.Scene {
     update(){
         gameState.input=this.input;
         gameState.shopElements[1].setText(`Gold : ${gameState.gold}`);
-        if(gameState.input.x <= 10 && scrollLock > 0){
+        if(gameState.input.x <= 10 && gameState.scrollLock > 0){
             gameState.camera.x += 10;
             for(var i = 0; i <gameState.shopElements.length ; i++){
                 gameState.shopElements[i].x -= 10;
             }
-            scrollLock --;
+            gameState.scrollLock --;
         }
-        else if(gameState.input.x >= window.innerWidth -330 && scrollLock < 90){
+        else if(gameState.input.x >= window.innerWidth -330 && gameState.scrollLock < 90){
             gameState.camera.x -= 10;
             for(var i = 0; i <gameState.shopElements.length ; i++){
                 gameState.shopElements[i].x += 10;
             }
-            scrollLock ++;
+            gameState.scrollLock ++;
         }
         
         if(gameState.select1.hhealth <= 0 || gameState.select2.hhealth <= 0){
