@@ -149,7 +149,7 @@ let gameState = {
     demonFly: {
         Tsprite: 'demonfly',
         Tcost: 75,
-        Tdepth : 0,
+        Tdepth : 1,
         Tdamage: 40,
         Thealth: 125,
         TattackSpeed : 1000,
