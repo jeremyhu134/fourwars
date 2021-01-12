@@ -486,7 +486,7 @@ class GameScene extends Phaser.Scene {
             delay: 60000,
             callback: ()=>{
                 gameState.goldProduction += 5;
-                gameState.randomTime *= 0.5;
+                gameState.randomTime *= 0.75;
                 enemyTroopsTimer.delay = (Math.ceil(Math.random()*gameState.randomTime)+gameState.randomTime);
             },  
             startAt: 0,
