@@ -58,7 +58,7 @@ let gameState = {
     alienMegaWalker: {
         Tsprite: 'alienmegawalker',
         Tcost: 300,
-        Tdepth : 1,
+        Tdepth : 0,
         Tdamage: 0.8,
         Thealth: 400,
         TattackSpeed : 10,
@@ -102,7 +102,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'splash',
-        TsplashRange: 75,
+        TsplashRange: 40,
         TbulletSprite: 'bullet3'
     },
     humanBattleCruiser: {
@@ -111,10 +111,10 @@ let gameState = {
         Tdepth : 1,
         Tdamage: 65,
         Thealth: 450,
-        TattackSpeed : 3000,
+        TattackSpeed : 2500,
         TSpeed : 30,
         Trange: 275,
-        TprojectileSpeed: 3000,
+        TprojectileSpeed: 2000,
         TunitType: 'air',
         TtargetType: 'ground&air',
         TattackType: 'single',
@@ -140,10 +140,10 @@ let gameState = {
     },
     demonFlarer: {
         Tsprite: 'demonflarer',
-        Tcost: 25,
+        Tcost: 30,
         Tdepth : 0,
         Tdamage: 10,
-        Thealth: 50,
+        Thealth: 40,
         TattackSpeed : 750,
         TSpeed : 130,
         Trange: 150,
@@ -184,7 +184,23 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'splash',
-        TsplashRange: 15,
+        TsplashRange: 5,
+        TbulletSprite: 'bullet8'
+    },
+    entossGiant: {
+        Tsprite: 'entossgiant',
+        Tcost: 250,
+        Tdepth : 0,
+        Tdamage: 75,
+        Thealth: 300,
+        TattackSpeed : 3000,
+        TSpeed : 60,
+        Trange: 200,
+        TprojectileSpeed: 500,
+        TunitType: 'ground',
+        TtargetType: 'ground',
+        TattackType: 'splash',
+        TsplashRange: 60,
         TbulletSprite: 'bullet8'
     },
 }
