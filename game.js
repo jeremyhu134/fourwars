@@ -71,6 +71,22 @@ let gameState = {
         TsplashRange: 0,
         TbulletSprite: 'bullet4'
     },
+    alienPlasmaShip: {
+        Tsprite: 'alienplasmaship',
+        Tcost: 200,
+        Tdepth : 1,
+        Tdamage: 0.6,
+        Thealth: 150,
+        TattackSpeed : 10,
+        TSpeed : 60,
+        Trange: 200,
+        TprojectileSpeed: 1500,
+        TunitType: 'air',
+        TtargetType: 'ground&air',
+        TattackType: 'single',
+        TsplashRange: 0,
+        TbulletSprite: 'bullet4'
+    },
     
     
    humanTrooper: {

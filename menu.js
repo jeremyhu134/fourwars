@@ -24,11 +24,13 @@ class MenuScene extends Phaser.Scene {
         this.load.image('aliendrone','heroimages/aliendrone.png');
         this.load.image('alienwalker','heroimages/alienwalker.png');
         this.load.image('alienmegawalker','heroimages/alienmegawalker.png');
+        this.load.image('alienplasmaship','heroimages/alienplasmaship.png');
         
         this.load.image('alienhqred','heroimages/alienhqred.png');
         this.load.image('aliendronered','heroimages/aliendronered.png');
         this.load.image('alienwalkerred','heroimages/alienwalkerred.png');
         this.load.image('alienmegawalkerred','heroimages/alienmegawalkerred.png');
+        this.load.image('alienplasmashipred','heroimages/alienplasmashipred.png');
         
         this.load.image('humanhq','heroimages/humanhq.png');
         this.load.image('humantrooper','heroimages/humantrooper.png');
@@ -223,6 +225,8 @@ class GameScene extends Phaser.Scene {
                     gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TunitType,gameState.humanTrooper.TtargetType,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite,gameState.humanTrooper.TsplashRange);
                     }
                 });
+                selectElement = scene.add.text( 20, 470, `${gameState.humanTrooper.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
 
 
                 selectElement = scene.add.image(90,420,gameState.humanTank.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
@@ -234,6 +238,8 @@ class GameScene extends Phaser.Scene {
                     gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TunitType,gameState.humanTank.TtargetType,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite,gameState.humanTank.TsplashRange);
                     }
                 });
+                selectElement = scene.add.text( 90, 470, `${gameState.humanTank.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
 
 
                 selectElement = scene.add.image(160,420,gameState.humanBattleCruiser.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
@@ -245,6 +251,8 @@ class GameScene extends Phaser.Scene {
                     gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite,gameState.humanBattleCruiser.TsplashRange);
                     }
                 });
+                selectElement = scene.add.text( 160, 470, `${gameState.humanBattleCruiser.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
             }
             else if(gameState.faction == "alien"){
                 selectElement = scene.add.image(20,420,gameState.alienDrone.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
@@ -257,7 +265,8 @@ class GameScene extends Phaser.Scene {
                     gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite,gameState.alienDrone.TsplashRange);
                     }
                 });
-
+                selectElement = scene.add.text( 20, 470, `${gameState.alienDrone.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
 
                 selectElement = scene.add.image(90,420,gameState.alienWalker.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
                 selectElement.setScale(40/selectElement.displayWidth);
@@ -268,7 +277,8 @@ class GameScene extends Phaser.Scene {
                     gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TunitType,gameState.alienWalker.TtargetType,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite,gameState.alienWalker.TsplashRange);
                     }
                 });
-
+                selectElement = scene.add.text( 90, 470, `${gameState.alienWalker.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
 
                 selectElement = scene.add.image(160,420,gameState.alienMegaWalker.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
                 selectElement.setScale(40/selectElement.displayWidth);
@@ -279,6 +289,20 @@ class GameScene extends Phaser.Scene {
                     gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TunitType,gameState.alienMegaWalker.TtargetType,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite,gameState.alienMegaWalker.TsplashRange);
                     }
                 });
+                selectElement = scene.add.text( 160, 470, `${gameState.alienMegaWalker.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
+                
+                selectElement = scene.add.image(230,420,gameState.alienPlasmaShip.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.alienPlasmaShip.Tcost){
+                       gameState.gold -= gameState.alienPlasmaShip.Tcost; gameState.createTroop(gameState.globalScene,gameState.alienPlasmaShip.Tsprite,gameState.alienPlasmaShip.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.alienPlasmaShip.Thealth,gameState.alienPlasmaShip.Tdamage,gameState.alienPlasmaShip.TSpeed,gameState.alienPlasmaShip.TattackSpeed,
+                    gameState.alienPlasmaShip.Trange,gameState.alienPlasmaShip.TprojectileSpeed,gameState.alienPlasmaShip.TunitType,gameState.alienPlasmaShip.TtargetType,gameState.alienPlasmaShip.TattackType,gameState.alienPlasmaShip.TbulletSprite,gameState.alienPlasmaShip.TsplashRange);
+                    }
+                });
+                selectElement = scene.add.text( 230, 470, `${gameState.alienPlasmaShip.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
             }
             else if(gameState.faction == "demon"){
                 selectElement = scene.add.image(20,420,gameState.demonCrawler.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
@@ -291,6 +315,8 @@ class GameScene extends Phaser.Scene {
                     gameState.demonCrawler.Trange,gameState.demonCrawler.TprojectileSpeed,gameState.demonCrawler.TunitType,gameState.demonCrawler.TtargetType,gameState.demonCrawler.TattackType,gameState.demonCrawler.TbulletSprite,gameState.demonCrawler.TsplashRange);
                     }
                 });
+                selectElement = scene.add.text( 20, 470, `${gameState.demonCrawler.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
 
 
                 selectElement = scene.add.image(90,420,gameState.demonFlarer.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
@@ -302,7 +328,8 @@ class GameScene extends Phaser.Scene {
                     gameState.demonFlarer.Trange,gameState.demonFlarer.TprojectileSpeed,gameState.demonFlarer.TunitType,gameState.demonFlarer.TtargetType,gameState.demonFlarer.TattackType,gameState.demonFlarer.TbulletSprite,gameState.demonFlarer.TsplashRange);
                     }
                 });
-
+                selectElement = scene.add.text( 90, 470, `${gameState.demonFlarer.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
 
                 selectElement = scene.add.image(160,420,gameState.demonFly.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
                 selectElement.setScale(40/selectElement.displayWidth);
@@ -313,6 +340,8 @@ class GameScene extends Phaser.Scene {
                     gameState.demonFly.Trange,gameState.demonFly.TprojectileSpeed,gameState.demonFly.TunitType,gameState.demonFly.TtargetType,gameState.demonFly.TattackType,gameState.demonFly.TbulletSprite,gameState.demonFly.TsplashRange);
                     }
                 });
+                selectElement = scene.add.text( 160, 470, `${gameState.demonFly.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
             }
             else if(gameState.faction == "entoss"){
                 selectElement = scene.add.image(20,420,gameState.entossSpitter.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
@@ -325,7 +354,8 @@ class GameScene extends Phaser.Scene {
                     gameState.entossSpitter.Trange,gameState.entossSpitter.TprojectileSpeed,gameState.entossSpitter.TunitType,gameState.entossSpitter.TtargetType,gameState.entossSpitter.TattackType,gameState.entossSpitter.TbulletSprite,gameState.entossSpitter.TsplashRange);
                     }
                 });
-                
+                selectElement = scene.add.text( 20, 470, `${gameState.entossSpitter.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
                 
                 selectElement = scene.add.image(90,420,gameState.entossGiant.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
                 selectElement.setScale(40/selectElement.displayHeight);
@@ -336,6 +366,8 @@ class GameScene extends Phaser.Scene {
                     gameState.entossGiant.Trange,gameState.entossGiant.TprojectileSpeed,gameState.entossGiant.TunitType,gameState.entossGiant.TtargetType,gameState.entossGiant.TattackType,gameState.entossGiant.TbulletSprite,gameState.entossGiant.TsplashRange);
                     }
                 });
+                selectElement = scene.add.text( 90, 470, `${gameState.entossGiant.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
             }
         }
         gameState.invOpen = false;
