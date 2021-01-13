@@ -45,8 +45,10 @@ class MenuScene extends Phaser.Scene {
         this.load.image('demonflarer','heroimages/demonflarer.png');
         this.load.image('demonfly','heroimages/demonfly.png');
         
+        this.load.image('entosshq','heroimages/entosshq.png');
+        this.load.image('entossspitter','heroimages/entossspitter.png');
+        
         this.load.image('bg','heroimages/bg.png');
-        this.load.image('soldier76','heroimages/soldier76.png');
         this.load.image('bullet1','heroimages/bullet1.png');
         this.load.image('bullet2','heroimages/bullet2.png');
         this.load.image('bullet3','heroimages/bullet3.png');
@@ -54,10 +56,7 @@ class MenuScene extends Phaser.Scene {
         this.load.image('bullet5','heroimages/bullet5.png');
         this.load.image('bullet6','heroimages/bullet6.png');
         this.load.image('bullet7','heroimages/bullet7.png');
-        
-        this.load.image('robot1','heroimages/robot1.png');
-        this.load.image('inventoryButton','heroimages/inventoryButton.png');
-        this.load.image('invBg','heroimages/invBg.png');
+        this.load.image('bullet8','heroimages/bullet8.png');
     }
     create() {
         gameState.faction = "NONE";
@@ -117,7 +116,7 @@ class SkirmishScene extends Phaser.Scene {
         
         var entossButton = this.add.image(515,250,'entossBanner').setOrigin(0,0).setScale(50/153).setInteractive();
         entossButton.on('pointerdown', function(pointer){
-            gameState.faction = "human";
+            gameState.faction = "entoss";
         });
         this.add.image(520,305,'entossDescription').setOrigin(0,0).setScale(50/48).setInteractive();
         
@@ -196,7 +195,7 @@ class GameScene extends Phaser.Scene {
                     if(gameState.gold >= gameState.humanTrooper.Tcost){
                        gameState.gold -= gameState.humanTrooper.Tcost; 
                         gameState.createTroop(gameState.globalScene,gameState.humanTrooper.Tsprite,gameState.humanTrooper.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTrooper.Thealth,gameState.humanTrooper.Tdamage,gameState.humanTrooper.TSpeed,gameState.humanTrooper.TattackSpeed,
-                    gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TunitType,gameState.humanTrooper.TtargetType,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite);
+                    gameState.humanTrooper.Trange,gameState.humanTrooper.TprojectileSpeed,gameState.humanTrooper.TunitType,gameState.humanTrooper.TtargetType,gameState.humanTrooper.TattackType,gameState.humanTrooper.TbulletSprite,gameState.humanTrooper.TsplashRange);
                     }
                 });
 
@@ -207,7 +206,7 @@ class GameScene extends Phaser.Scene {
                 selectElement.on('pointerdown', function(pointer){
                     if(gameState.gold >= gameState.humanTank.Tcost){
                        gameState.gold -= gameState.humanTank.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanTank.Tsprite,gameState.humanTank.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanTank.Thealth,gameState.humanTank.Tdamage,gameState.humanTank.TSpeed,gameState.humanTank.TattackSpeed,
-                    gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TunitType,gameState.humanTank.TtargetType,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite);
+                    gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TunitType,gameState.humanTank.TtargetType,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite,gameState.humanTank.TsplashRange);
                     }
                 });
 
@@ -218,7 +217,7 @@ class GameScene extends Phaser.Scene {
                 selectElement.on('pointerdown', function(pointer){
                     if(gameState.gold >= gameState.humanBattleCruiser.Tcost){
                        gameState.gold -= gameState.humanBattleCruiser.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite,gameState.humanBattleCruiser.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
-                    gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite);
+                    gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite,gameState.humanBattleCruiser.TsplashRange);
                     }
                 });
             }
@@ -230,7 +229,7 @@ class GameScene extends Phaser.Scene {
                     if(gameState.gold >= gameState.alienDrone.Tcost){
                        gameState.gold -= gameState.alienDrone.Tcost; 
                         gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite,gameState.alienDrone.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
-                    gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
+                    gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite,gameState.alienDrone.TsplashRange);
                     }
                 });
 
@@ -241,7 +240,7 @@ class GameScene extends Phaser.Scene {
                 selectElement.on('pointerdown', function(pointer){
                     if(gameState.gold >= gameState.alienWalker.Tcost){
                        gameState.gold -= gameState.alienWalker.Tcost; gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite,gameState.alienWalker.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
-                    gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TunitType,gameState.alienWalker.TtargetType,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
+                    gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TunitType,gameState.alienWalker.TtargetType,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite,gameState.alienWalker.TsplashRange);
                     }
                 });
 
@@ -252,7 +251,7 @@ class GameScene extends Phaser.Scene {
                 selectElement.on('pointerdown', function(pointer){
                     if(gameState.gold >= gameState.alienMegaWalker.Tcost){
                        gameState.gold -= gameState.alienMegaWalker.Tcost; gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                    gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TunitType,gameState.alienMegaWalker.TtargetType,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
+                    gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TunitType,gameState.alienMegaWalker.TtargetType,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite,gameState.alienMegaWalker.TsplashRange);
                     }
                 });
             }
@@ -264,7 +263,7 @@ class GameScene extends Phaser.Scene {
                     if(gameState.gold >= gameState.demonCrawler.Tcost){
                        gameState.gold -= gameState.demonCrawler.Tcost; 
                         gameState.createTroop(gameState.globalScene,gameState.demonCrawler.Tsprite,gameState.demonCrawler.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.demonCrawler.Thealth,gameState.demonCrawler.Tdamage,gameState.demonCrawler.TSpeed,gameState.demonCrawler.TattackSpeed,
-                    gameState.demonCrawler.Trange,gameState.demonCrawler.TprojectileSpeed,gameState.demonCrawler.TunitType,gameState.demonCrawler.TtargetType,gameState.demonCrawler.TattackType,gameState.demonCrawler.TbulletSprite);
+                    gameState.demonCrawler.Trange,gameState.demonCrawler.TprojectileSpeed,gameState.demonCrawler.TunitType,gameState.demonCrawler.TtargetType,gameState.demonCrawler.TattackType,gameState.demonCrawler.TbulletSprite,gameState.demonCrawler.TsplashRange);
                     }
                 });
 
@@ -275,7 +274,7 @@ class GameScene extends Phaser.Scene {
                 selectElement.on('pointerdown', function(pointer){
                     if(gameState.gold >= gameState.demonFlarer.Tcost){
                        gameState.gold -= gameState.demonFlarer.Tcost; gameState.createTroop(gameState.globalScene,gameState.demonFlarer.Tsprite,gameState.demonFlarer.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.demonFlarer.Thealth,gameState.demonFlarer.Tdamage,gameState.demonFlarer.TSpeed,gameState.demonFlarer.TattackSpeed,
-                    gameState.demonFlarer.Trange,gameState.demonFlarer.TprojectileSpeed,gameState.demonFlarer.TunitType,gameState.demonFlarer.TtargetType,gameState.demonFlarer.TattackType,gameState.demonFlarer.TbulletSprite);
+                    gameState.demonFlarer.Trange,gameState.demonFlarer.TprojectileSpeed,gameState.demonFlarer.TunitType,gameState.demonFlarer.TtargetType,gameState.demonFlarer.TattackType,gameState.demonFlarer.TbulletSprite,gameState.demonFlarer.TsplashRange);
                     }
                 });
 
@@ -286,13 +285,25 @@ class GameScene extends Phaser.Scene {
                 selectElement.on('pointerdown', function(pointer){
                     if(gameState.gold >= gameState.demonFly.Tcost){
                        gameState.gold -= gameState.demonFly.Tcost; gameState.createTroop(gameState.globalScene,gameState.demonFly.Tsprite,gameState.demonFly.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.demonFly.Thealth,gameState.demonFly.Tdamage,gameState.demonFly.TSpeed,gameState.demonFly.TattackSpeed,
-                    gameState.demonFly.Trange,gameState.demonFly.TprojectileSpeed,gameState.demonFly.TunitType,gameState.demonFly.TtargetType,gameState.demonFly.TattackType,gameState.demonFly.TbulletSprite);
+                    gameState.demonFly.Trange,gameState.demonFly.TprojectileSpeed,gameState.demonFly.TunitType,gameState.demonFly.TtargetType,gameState.demonFly.TattackType,gameState.demonFly.TbulletSprite,gameState.demonFly.TsplashRange);
+                    }
+                });
+            }
+            else if(gameState.faction == "entoss"){
+                selectElement = scene.add.image(20,420,gameState.entossSpitter.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayWidth);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.entossSpitter.Tcost){
+                       gameState.gold -= gameState.entossSpitter.Tcost; 
+                        gameState.createTroop(gameState.globalScene,gameState.entossSpitter.Tsprite,gameState.entossSpitter.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.entossSpitter.Thealth,gameState.entossSpitter.Tdamage,gameState.entossSpitter.TSpeed,gameState.entossSpitter.TattackSpeed,
+                    gameState.entossSpitter.Trange,gameState.entossSpitter.TprojectileSpeed,gameState.entossSpitter.TunitType,gameState.entossSpitter.TtargetType,gameState.entossSpitter.TattackType,gameState.entossSpitter.TbulletSprite,gameState.entossSpitter.TsplashRange);
                     }
                 });
             }
         }
         gameState.invOpen = false;
-        gameState.gold = 0;
+        gameState.gold = 10;
         
         
         
@@ -302,9 +313,24 @@ class GameScene extends Phaser.Scene {
         gameState.team1troops.getChildren().forEach(troop => {
             
         });
-        gameState.bulletTime = function(bullet,scene,Ttarget,bulletSpeed,damage){
+        gameState.bulletTime = function(bullet,scene,Ttarget,bulletSpeed,damage,enemies,splashRange){
             var alive = 0;
             scene.physics.add.overlap(bullet, Ttarget,(robot,ammo)=>{
+                var array = [];
+                
+                for (var i = 0; i < enemies.length; i++){
+                    var dist = Phaser.Math.Distance.BetweenPoints(enemies[i], bullet);
+                    console.log(splashRange);
+                    if(dist < splashRange && enemies[i].UT !== "air"){
+                        array.push(enemies[i]);
+                    }
+                }
+                for (var i = 0; i < array.length; i++){
+                    array[i].hhealth -= damage;
+                    if(array[i].hhealth <= 0){
+                        array[i].destroy();
+                    }
+                }
                 bullet.destroy();
                 alive = 1;
                 Ttarget.hhealth -= damage;
@@ -346,7 +372,7 @@ class GameScene extends Phaser.Scene {
             selected.health = maxHealth;
         }
         
-        function troopBehavior(scene,select,team,enemies,health,speed,ranges,attSpeed,PS,UT,TT,AT,damage,bulletSprite){
+        function troopBehavior(scene,select,team,enemies,health,speed,ranges,attSpeed,PS,UT,TT,AT,damage,bulletSprite,splashRange){
             var targeted = false;
             var target = 0;
             var timer = scene.time.addEvent({
@@ -357,7 +383,7 @@ class GameScene extends Phaser.Scene {
                         if(target !== 0){
                             if(targeted == false){
                                 var selected = gameState.bullets.create(select.x,select.y,bulletSprite);
-                                gameState.bulletTime(selected,scene,target,PS,damage);
+                                gameState.bulletTime(selected,scene,target,PS,damage,enemies,splashRange);
                                 gameState.angle=Phaser.Math.Angle.Between(select.x,select.y,target.x,target.y,30);
                                 selected.setRotation(gameState.angle); 
                                 targeted = true;
@@ -428,7 +454,7 @@ class GameScene extends Phaser.Scene {
                 repeat: -1
             }); 
         }
-        gameState.createTroop = function(scene,sprite,depth,team,xloc,yloc,health,damage,speed,attackSpeed,range,projectileSpeed,unitType,targetType,attackType,bulletSprite){
+        gameState.createTroop = function(scene,sprite,depth,team,xloc,yloc,health,damage,speed,attackSpeed,range,projectileSpeed,unitType,targetType,attackType,bulletSprite,splashRange){
             if(team == 1){
                 gameState.team1.create(xloc,yloc,`${sprite}`).setDepth(depth);
                 gameState.first = gameState.team1.getChildren();
@@ -436,8 +462,7 @@ class GameScene extends Phaser.Scene {
                 var selected = gameState.first[gameState.team1.getChildren().length-1];
                 selected.hhealth = health;
                 selected.UT = unitType;
-                console.log(selected.UT);
-                troopBehavior(scene,selected,1,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,unitType,targetType,attackType,damage,bulletSprite);
+                troopBehavior(scene,selected,1,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,unitType,targetType,attackType,damage,bulletSprite,splashRange);
             }
             else if(team == 2){
                 gameState.team2.create(xloc,yloc,`${sprite}`).setDepth(depth);
@@ -446,8 +471,7 @@ class GameScene extends Phaser.Scene {
                 var selected = gameState.first[gameState.team2.getChildren().length-1];
                 selected.hhealth = health;
                 selected.UT = unitType; 
-                console.log(selected.UT);
-                troopBehavior(scene,selected,2,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,unitType,targetType,attackType,damage,bulletSprite);
+                troopBehavior(scene,selected,2,gameState.enemies,health,speed,range,attackSpeed,projectileSpeed,unitType,targetType,attackType,damage,bulletSprite,splashRange);
             }
         }
         
@@ -457,15 +481,15 @@ class GameScene extends Phaser.Scene {
                 var random = Math.ceil(Math.random()*63);
                 if(random >= 1 && random <= 50){
                     gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite+'red',gameState.alienDrone.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
-                gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite);
+                gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite,gameState.alienDrone.TsplashRange);
                 }
                 else if(random >= 51 && random <= 63){
                     gameState.createTroop(gameState.globalScene,gameState.alienWalker.Tsprite+'red',gameState.alienWalker.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.alienWalker.Thealth,gameState.alienWalker.Tdamage,gameState.alienWalker.TSpeed,gameState.alienWalker.TattackSpeed,
-                gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TunitType,gameState.alienWalker.TtargetType,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite);
+                gameState.alienWalker.Trange,gameState.alienWalker.TprojectileSpeed,gameState.alienWalker.TunitType,gameState.alienWalker.TtargetType,gameState.alienWalker.TattackType,gameState.alienWalker.TbulletSprite,gameState.alienWalker.TsplashRange);
                 }
                 else if(random >= 64 && random <= 65){
                     gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite+'red',gameState.alienMegaWalker.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TunitType,gameState.alienMegaWalker.TtargetType,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
+                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TunitType,gameState.alienMegaWalker.TtargetType,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite,gameState.alienMegaWalker.TsplashRange);
                 }
             },  
             startAt: 0,
@@ -496,8 +520,8 @@ class GameScene extends Phaser.Scene {
         
         /*this.input.on('pointerdown', function(pointer){
             for(var i = 0; i <1 ; i++){
-                gameState.createTroop(gameState.globalScene,gameState.alienMegaWalker.Tsprite,gameState.alienMegaWalker.Tdepth,1,gameState.input.x,gameState.input.y,gameState.alienMegaWalker.Thealth,gameState.alienMegaWalker.Tdamage,gameState.alienMegaWalker.TSpeed,gameState.alienMegaWalker.TattackSpeed,
-                gameState.alienMegaWalker.Trange,gameState.alienMegaWalker.TprojectileSpeed,gameState.alienMegaWalker.TattackType,gameState.alienMegaWalker.TbulletSprite);
+                gameState.createTroop(gameState.globalScene,gameState.alienDrone.Tsprite+'red',gameState.alienDrone.Tdepth,2,gameState.input.x,gameState.input.y,gameState.alienDrone.Thealth,gameState.alienDrone.Tdamage,gameState.alienDrone.TSpeed,gameState.alienDrone.TattackSpeed,
+                gameState.alienDrone.Trange,gameState.alienDrone.TprojectileSpeed,gameState.alienDrone.TunitType,gameState.alienDrone.TtargetType,gameState.alienDrone.TattackType,gameState.alienDrone.TbulletSprite,gameState.alienDrone.TsplashRange);
             }
         });*/
 	}

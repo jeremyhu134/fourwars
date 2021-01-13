@@ -36,6 +36,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet1'
     },
     alienWalker: {
@@ -51,6 +52,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground&air',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet1'
     },
     alienMegaWalker: {
@@ -66,6 +68,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet4'
     },
     
@@ -83,21 +86,23 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground&air',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet2'
     },
     humanTank: {
         Tsprite: 'humantank',
-        Tcost: 100,
+        Tcost: 125,
         Tdepth : 0,
         Tdamage: 70,
         Thealth: 150,
         TattackSpeed : 5000,
         TSpeed : 50,
         Trange: 350,
-        TprojectileSpeed: 3000,
+        TprojectileSpeed: 2000,
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'splash',
+        TsplashRange: 75,
         TbulletSprite: 'bullet3'
     },
     humanBattleCruiser: {
@@ -113,6 +118,7 @@ let gameState = {
         TunitType: 'air',
         TtargetType: 'ground&air',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet5'
     },
     
@@ -129,6 +135,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet6'
     },
     demonFlarer: {
@@ -144,6 +151,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground&air',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet7'
     },
     demonFly: {
@@ -159,6 +167,24 @@ let gameState = {
         TunitType: 'air',
         TtargetType: 'ground&air',
         TattackType: 'single',
+        TsplashRange: 0,
         TbulletSprite: 'bullet7'
+    },
+    
+    entossSpitter: {
+        Tsprite: 'entossspitter',
+        Tcost: 100,
+        Tdepth : 0,
+        Tdamage: 50,
+        Thealth: 125,
+        TattackSpeed : 2000,
+        TSpeed : 100,
+        Trange: 160,
+        TprojectileSpeed: 200,
+        TunitType: 'ground',
+        TtargetType: 'ground',
+        TattackType: 'splash',
+        TsplashRange: 15,
+        TbulletSprite: 'bullet8'
     },
 }
