@@ -55,10 +55,12 @@ class MenuScene extends Phaser.Scene {
         this.load.image('entosshq','heroimages/entosshq.png');
         this.load.image('entossspitter','heroimages/entossspitter.png');
         this.load.image('entossgiant','heroimages/entossgiant.png');
+        this.load.image('entossbird','heroimages/entossbird.png');
         
         this.load.image('entosshqred','heroimages/entosshqred.png');
         this.load.image('entossspitterred','heroimages/entossspitterred.png');
         this.load.image('entossgiantred','heroimages/entossgiantred.png');
+        this.load.image('entossbirdred','heroimages/entossbirdred.png');
         
         this.load.image('bg','heroimages/bg.png');
         this.load.image('bullet1','heroimages/bullet1.png');
@@ -69,6 +71,7 @@ class MenuScene extends Phaser.Scene {
         this.load.image('bullet6','heroimages/bullet6.png');
         this.load.image('bullet7','heroimages/bullet7.png');
         this.load.image('bullet8','heroimages/bullet8.png');
+        this.load.image('bullet9','heroimages/bullet9.png');
     }
     create() {
         gameState.faction = "NONE";
@@ -195,10 +198,10 @@ class GameScene extends Phaser.Scene {
         gameState.createEnvironment = function(scene){
             gameState.select1 = gameState.team1.create(105,200,`${gameState.faction}hq`).setDepth(0);
             gameState.select1.hhealth = 10000;
-            gameState.select1.UT = 'ground';
+            gameState.select1.UT = 'hq';
             gameState.select2 = gameState.team2.create(1850,200,`${gameState.enemyfaction}hqred`).setDepth(0).setFlipX(true);
             gameState.select2.hhealth = 10000;
-            gameState.select2.UT = 'ground';
+            gameState.select2.UT = 'hq';
             
             gameState.goldProduction = 10;
             gameState.randomTime = 3000;
@@ -368,6 +371,18 @@ class GameScene extends Phaser.Scene {
                 });
                 selectElement = scene.add.text( 90, 470, `${gameState.entossGiant.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
                 gameState.shopElements.push(selectElement);
+                
+                selectElement = scene.add.image(160,420,gameState.entossBird.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayHeight);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.entossBird.Tcost){
+                       gameState.gold -= gameState.entossBird.Tcost; gameState.createTroop(gameState.globalScene,gameState.entossBird.Tsprite,gameState.entossBird.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.entossBird.Thealth,gameState.entossBird.Tdamage,gameState.entossBird.TSpeed,gameState.entossBird.TattackSpeed,
+                    gameState.entossBird.Trange,gameState.entossBird.TprojectileSpeed,gameState.entossBird.TunitType,gameState.entossBird.TtargetType,gameState.entossBird.TattackType,gameState.entossBird.TbulletSprite,gameState.entossBird.TsplashRange);
+                    }
+                });
+                selectElement = scene.add.text( 160, 470, `${gameState.entossBird.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
             }
         }
         gameState.invOpen = false;
@@ -467,9 +482,17 @@ class GameScene extends Phaser.Scene {
                 repeat: -1
             }); 
             var timer2 = scene.time.addEvent({
-                delay: 10,
+                delay: 1,
                 callback: ()=>{
                     if(select.hhealth > 0){
+                        if(team == 2 && select.x < 0){
+                            select.hhealth = 0;
+                            select.destroy();
+                        }
+                        else if(team == 1 && select.x > 2000){
+                            select.hhealth = 0;
+                            select.destroy();
+                        }
                         for (var i = 0; i < enemies.length; i++){
                             if(target == 0){
                                 var dist = Phaser.Math.Distance.BetweenPoints(enemies[i], select);
@@ -478,7 +501,7 @@ class GameScene extends Phaser.Scene {
                                 var dist = Phaser.Math.Distance.BetweenPoints(target, select);
                             }
 
-                            if(dist < ranges && target == 0 && TT == 'ground&air'){
+                            if(dist < ranges && target == 0 && TT == 'ground&air' || dist < ranges && target == 0 && enemies[i].UT == 'hq'){
                                 target = enemies[i];
                             }
                             else if(dist < ranges && target == 0 && TT == 'ground' && enemies[i].UT == 'ground'){

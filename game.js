@@ -216,7 +216,23 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'splash',
-        TsplashRange: 60,
+        TsplashRange: 20,
         TbulletSprite: 'bullet8'
+    },
+    entossBird: {
+        Tsprite: 'entossbird',
+        Tcost: 50,
+        Tdepth : 1,
+        Tdamage: 15,
+        Thealth: 75,
+        TattackSpeed : 600,
+        TSpeed : 150,
+        Trange: 150,
+        TprojectileSpeed: 1000,
+        TunitType: 'air',
+        TtargetType: 'air',
+        TattackType: 'single',
+        TsplashRange: 0,
+        TbulletSprite: 'bullet9'
     },
 }
