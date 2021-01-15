@@ -189,10 +189,10 @@ let gameState = {
     
     entossSpitter: {
         Tsprite: 'entossspitter',
-        Tcost: 100,
+        Tcost: 75,
         Tdepth : 0,
-        Tdamage: 50,
-        Thealth: 125,
+        Tdamage: 40,
+        Thealth: 100,
         TattackSpeed : 2000,
         TSpeed : 100,
         Trange: 160,
