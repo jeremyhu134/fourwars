@@ -8,6 +8,7 @@ class MenuScene extends Phaser.Scene {
         this.load.image('gameTitleImage','heroimages/gameTitleImage.png');
         this.load.image('skirmishButton','heroimages/skirmishButton.png');
         this.load.image('startButton','heroimages/startButton.png');
+        this.load.image('canyonBg','heroimages/canyonBg.png');
         
         this.load.image('alienBanner','heroimages/alienBanner.png');
         this.load.image('humanBanner','heroimages/humanBanner.png');
@@ -198,6 +199,7 @@ class GameScene extends Phaser.Scene {
         gameState.team2 = this.physics.add.group(); 
         
         gameState.createEnvironment = function(scene){
+            scene.add.image(0,0,'canyonBg').setOrigin(0,0);
             gameState.select1 = gameState.team1.create(105,200,`${gameState.faction}hq`).setDepth(0);
             gameState.select1.hhealth = 10000;
             gameState.select1.UT = 'hq';
@@ -403,10 +405,10 @@ class GameScene extends Phaser.Scene {
             scene.physics.add.overlap(bullet, Ttarget,(robot,ammo)=>{
                 var array = [];
                 
-                for (var i = 0; i < enemies.length; i++){
-                    var dist = Phaser.Math.Distance.BetweenPoints(enemies[i], bullet);
+                for (var i = 0; i < gameState.team2.getChildren().length; i++){
+                    var dist = Phaser.Math.Distance.BetweenPoints(gameState.team2.getChildren()[i], bullet);
                     console.log(splashRange);
-                    if(dist < splashRange && enemies[i].UT !== "air"){
+                    if(dist < splashRange && gameState.team2.getChildren()[i].UT !== "air"){
                         array.push(enemies[i]);
                     }
                 }
@@ -487,14 +489,6 @@ class GameScene extends Phaser.Scene {
                 delay: 1,
                 callback: ()=>{
                     if(select.hhealth > 0){
-                        if(team == 2 && select.x < 0){
-                            select.hhealth = 0;
-                            select.destroy();
-                        }
-                        else if(team == 1 && select.x > 2000){
-                            select.hhealth = 0;
-                            select.destroy();
-                        }
                         for (var i = 0; i < enemies.length; i++){
                             if(target == 0){
                                 var dist = Phaser.Math.Distance.BetweenPoints(enemies[i], select);
@@ -573,6 +567,7 @@ class GameScene extends Phaser.Scene {
             callback: ()=>{ 
                 var random = 0;
                 var troops = gameState.team1.getChildren().length;
+                var random = Math.ceil(Math.random()*2);
                 if(gameState.enemyfaction == 'alien') {
                    if(troops >= 3 && troops <= 10){
                        console.log(troops);
@@ -658,8 +653,7 @@ class GameScene extends Phaser.Scene {
                     gameState.humanTank.Trange,gameState.humanTank.TprojectileSpeed,gameState.humanTank.TunitType,gameState.humanTank.TtargetType,gameState.humanTank.TattackType,gameState.humanTank.TbulletSprite,gameState.humanTank.TsplashRange);
                     }
                     else if(random >= 64 && random <= 65){
-                        gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite+'red',gameState.humanBattleCruiser.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,
-                    gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite,gameState.humanBattleCruiser.TsplashRange);
+                        gameState.createTroop(gameState.globalScene,gameState.humanBattleCruiser.Tsprite+'red',gameState.humanBattleCruiser.Tdepth,2,2100,Math.ceil(Math.random()*150)+100,gameState.humanBattleCruiser.Thealth,gameState.humanBattleCruiser.Tdamage,gameState.humanBattleCruiser.TSpeed,gameState.humanBattleCruiser.TattackSpeed,gameState.humanBattleCruiser.Trange,gameState.humanBattleCruiser.TprojectileSpeed,gameState.humanBattleCruiser.TunitType,gameState.humanBattleCruiser.TtargetType,gameState.humanBattleCruiser.TattackType,gameState.humanBattleCruiser.TbulletSprite,gameState.humanBattleCruiser.TsplashRange);
                     }
                 }
                 else if(gameState.enemyfaction == 'demon') {
