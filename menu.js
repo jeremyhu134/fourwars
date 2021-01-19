@@ -6,8 +6,10 @@ class MenuScene extends Phaser.Scene {
     preload(){
         this.load.image('gameTitle','heroimages/gameTitle.png');
         this.load.image('gameTitleImage','heroimages/gameTitleImage.png');
+        this.load.image('campaignButton','heroimages/campaignButton.png');
         this.load.image('skirmishButton','heroimages/skirmishButton.png');
         this.load.image('startButton','heroimages/startButton.png');
+        this.load.image('backButton','heroimages/backButton.png');
         this.load.image('canyonBg','heroimages/canyonBg.png');
         
         this.load.image('alienBanner','heroimages/alienBanner.png');
@@ -15,9 +17,13 @@ class MenuScene extends Phaser.Scene {
         this.load.image('demonBanner','heroimages/demonBanner.png');
         this.load.image('entossBanner','heroimages/entossBanner.png');
         this.load.image('alienDescription','heroimages/alienDescription.png');
+        this.load.image('alienCampaignSummary','heroimages/alienCampaignSummary.png');
         this.load.image('humanDescription','heroimages/humanDescription.png');
+        this.load.image('humanCampaignSummary','heroimages/humanCampaignSummary.png');
         this.load.image('demonDescription','heroimages/demonDescription.png');
+        this.load.image('demonCampaignSummary','heroimages/demonCampaignSummary.png');
         this.load.image('entossDescription','heroimages/entossDescription.png');
+        this.load.image('entossCampaignSummary','heroimages/entossCampaignSummary.png');
         
         this.load.image('bullet','heroimages/bullet.png');
         this.load.image('shopBar','heroimages/shopBar.png');
@@ -83,7 +89,13 @@ class MenuScene extends Phaser.Scene {
          
         var globalScene = this;
         
-        var skirmishButton = this.add.image(10,120,'skirmishButton').setOrigin(0,0).setInteractive();
+        var campaignButton = this.add.image(10,120,'campaignButton').setOrigin(0,0).setScale(50/153).setInteractive();
+        campaignButton.on('pointerdown', function(pointer){
+            globalScene.scene.stop('MenuScene');
+            globalScene.scene.start('CampaignScene');
+        });
+        
+        var skirmishButton = this.add.image(10,180,'skirmishButton').setOrigin(0,0).setInteractive();
         skirmishButton.on('pointerdown', function(pointer){
             globalScene.scene.stop('MenuScene');
             globalScene.scene.start('SkirmishScene');
@@ -93,6 +105,93 @@ class MenuScene extends Phaser.Scene {
         
     }
 }
+
+
+
+
+
+
+
+class CampaignScene extends Phaser.Scene {
+    constructor() {
+		super({ key: 'CampaignScene' })
+	}
+    preload(){
+        
+    }
+    create() {
+        var globalScene = this;
+        
+        this.add.image(10,10,'gameTitleImage').setOrigin(0,0).setScale(77/300);
+        this.add.image(97,10,'gameTitle').setOrigin(0,0);
+        
+        var backButton = this.add.image(950,440,'backButton').setOrigin(0,0).setInteractive();
+        backButton.on('pointerdown', function(pointer){
+            globalScene.scene.stop('CampaignScene');
+            globalScene.scene.start('MenuScene');
+        });
+        
+        var campaignSummary = this.add.image(10,200,'humanCampaignSummary').setOrigin(0,0);
+        
+        gameState.faction = "human";
+        
+        var globalScene = this;
+        
+        var humanButton = this.add.image(10,120,'humanBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        humanButton.on('pointerdown', function(pointer){
+            gameState.faction = "human";
+            campaignSummary.destroy();
+            campaignSummary = globalScene.add.image(10,200,'humanCampaignSummary').setOrigin(0,0);
+        });
+        
+        var alienButton = this.add.image(70,120,'alienBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        alienButton.on('pointerdown', function(pointer){
+            gameState.faction = "alien";
+            campaignSummary.destroy();
+            campaignSummary = globalScene.add.image(10,200,'alienCampaignSummary').setOrigin(0,0);
+        });
+        
+        var demonButton = this.add.image(130,120,'demonBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        demonButton.on('pointerdown', function(pointer){
+            gameState.faction = "demon";
+            campaignSummary.destroy();
+            campaignSummary = globalScene.add.image(10,200,'demonCampaignSummary').setOrigin(0,0);
+        });
+        
+        var entossButton = this.add.image(190,120,'entossBanner').setOrigin(0,0).setScale(50/153).setInteractive();
+        entossButton.on('pointerdown', function(pointer){
+            gameState.faction = "entoss";
+            campaignSummary.destroy();
+            campaignSummary = globalScene.add.image(10,200,'entossCampaignSummary').setOrigin(0,0);
+        });
+        
+        var startButton = this.add.image(10,450,'startButton').setOrigin(0,0).setScale(40/59).setInteractive();
+        startButton.on('pointerdown', function(pointer){
+            if(gameState.faction !== "NONE"){
+                var NUM = Math.ceil(Math.random()*4);
+                if (NUM == 1){
+                    gameState.enemyfaction = "human";
+                }
+                else if (NUM == 2){
+                    gameState.enemyfaction = "alien";
+                }
+                else if (NUM == 3){
+                    gameState.enemyfaction = "demon";
+                }
+                else {
+                    gameState.enemyfaction = "entoss";
+                }
+                globalScene.scene.stop('SkirmishScene');
+                globalScene.scene.start('GameScene');
+            }
+        });
+    }
+    upload() {
+        
+    }
+}
+
+
 
 
 
@@ -111,6 +210,12 @@ class SkirmishScene extends Phaser.Scene {
     create() {
         this.add.image(10,10,'gameTitleImage').setOrigin(0,0).setScale(77/300);
         this.add.image(97,10,'gameTitle').setOrigin(0,0);
+        
+        var backButton = this.add.image(950,440,'backButton').setOrigin(0,0).setInteractive();
+        backButton.on('pointerdown', function(pointer){
+            globalScene.scene.stop('SkirmishScene');
+            globalScene.scene.start('MenuScene');
+        });
         
         var globalScene = this;
         
@@ -163,7 +268,6 @@ class SkirmishScene extends Phaser.Scene {
         
     }
 }
-
 
 
 
