@@ -6,6 +6,7 @@ class MenuScene extends Phaser.Scene {
     preload(){
         this.load.image('gameTitle','heroimages/gameTitle.png');
         this.load.image('gameTitleImage','heroimages/gameTitleImage.png');
+        this.load.image('missionBriefing','heroimages/missionBriefing.png');
         this.load.image('campaignButton','heroimages/campaignButton.png');
         this.load.image('skirmishButton','heroimages/skirmishButton.png');
         this.load.image('startButton','heroimages/startButton.png');
@@ -89,6 +90,8 @@ class MenuScene extends Phaser.Scene {
          
         var globalScene = this;
         
+        gameState.humanLevel = 1;
+        
         var campaignButton = this.add.image(10,120,'campaignButton').setOrigin(0,0).setScale(50/153).setInteractive();
         campaignButton.on('pointerdown', function(pointer){
             globalScene.scene.stop('MenuScene');
@@ -167,22 +170,9 @@ class CampaignScene extends Phaser.Scene {
         
         var startButton = this.add.image(10,450,'startButton').setOrigin(0,0).setScale(40/59).setInteractive();
         startButton.on('pointerdown', function(pointer){
-            if(gameState.faction !== "NONE"){
-                var NUM = Math.ceil(Math.random()*4);
-                if (NUM == 1){
-                    gameState.enemyfaction = "human";
-                }
-                else if (NUM == 2){
-                    gameState.enemyfaction = "alien";
-                }
-                else if (NUM == 3){
-                    gameState.enemyfaction = "demon";
-                }
-                else {
-                    gameState.enemyfaction = "entoss";
-                }
-                globalScene.scene.stop('SkirmishScene');
-                globalScene.scene.start('GameScene');
+            if(gameState.faction == "human"){
+                globalScene.scene.stop('CampaignScene');
+                globalScene.scene.start('HumanMissionBriefingScene');
             }
         });
     }
@@ -318,11 +308,11 @@ class GameScene extends Phaser.Scene {
             gameState.shopElements = [];
             selectElement = scene.add.image(0,400,'shopBar').setOrigin(0,0).setDepth(2);
             gameState.shopElements.push(selectElement);
-            selectElement = scene.add.text( 10, 10, `Gold : ${gameState.gold}`, {fill: '#OOOOOO', fontSize: '25px'}).setDepth(2);
+            selectElement = scene.add.text( 10, 10, `Gold : ${gameState.gold}`, {fill: '#FFFFFF',fontSize: 'bold 25px'}).setDepth(2);
             gameState.shopElements.push(selectElement);
-            selectElement = scene.add.text( 10, 35, `HQ : ${gameState.select1.hhealth}`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+            selectElement = scene.add.text( 10, 35, `HQ : ${gameState.select1.hhealth}`, {fill: '#FFFFFF', fontSize: 'bold 15px'}).setDepth(2);
             gameState.shopElements.push(selectElement);
-            selectElement = scene.add.text( 900, 15, `Enemy HQ : ${gameState.select2.hhealth}`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+            selectElement = scene.add.text( 900, 15, `Enemy HQ : ${gameState.select2.hhealth}`, {fill: '#FFFFFF', fontSize: 'bold 15px'}).setDepth(2);
             gameState.shopElements.push(selectElement);
             
             if(gameState.faction == "human"){

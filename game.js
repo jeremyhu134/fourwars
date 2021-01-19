@@ -14,7 +14,7 @@ const config = {
             //debug: true
         }
     },
-    scene:[MenuScene, CampaignScene, SkirmishScene, GameScene],
+    scene:[MenuScene, CampaignScene, SkirmishScene, HumanMissionBriefingScene, GameScene],
     scale: {
         zoom: 1.3
     }
