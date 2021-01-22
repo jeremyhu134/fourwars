@@ -67,6 +67,7 @@ class MenuScene extends Phaser.Scene {
         this.load.image('entossbird','heroimages/entossbird.png');
         
         this.load.image('entosshqred','heroimages/entosshqred.png');
+        this.load.image('entossoutpostred','heroimages/entossoutpostred.png');
         this.load.image('entossspitterred','heroimages/entossspitterred.png');
         this.load.image('entossgiantred','heroimages/entossgiantred.png');
         this.load.image('entossbirdred','heroimages/entossbirdred.png');
@@ -89,8 +90,6 @@ class MenuScene extends Phaser.Scene {
         this.add.image(97,10,'gameTitle').setOrigin(0,0);
          
         var globalScene = this;
-        
-        gameState.humanLevel = 1;
         
         var campaignButton = this.add.image(10,120,'campaignButton').setOrigin(0,0).setScale(50/153).setInteractive();
         campaignButton.on('pointerdown', function(pointer){

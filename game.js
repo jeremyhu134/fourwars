@@ -14,7 +14,7 @@ const config = {
             //debug: true
         }
     },
-    scene:[MenuScene, CampaignScene, SkirmishScene, HumanMissionBriefingScene, GameScene],
+    scene:[MenuScene, CampaignScene, SkirmishScene, HumanMissionBriefingScene, HumanCampaignLevelOneScene, HumanCampaignLevelTwoScene, GameScene],
     scale: {
         zoom: 1.3
     }
@@ -23,6 +23,7 @@ const config = {
 const game = new Phaser.Game(config);
 
 let gameState = {
+    humanLevel: 1,
     alienDrone: {
         Tsprite: 'aliendrone',
         Tcost: 50,
