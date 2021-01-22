@@ -14,7 +14,7 @@ const config = {
             //debug: true
         }
     },
-    scene:[MenuScene, CampaignScene, SkirmishScene, HumanMissionBriefingScene, HumanCampaignLevelOneScene, HumanCampaignLevelTwoScene, GameScene],
+    scene:[MenuScene, CampaignScene, SkirmishScene, HumanMissionBriefingScene, HumanCampaignLevelOneScene, HumanCampaignLevelTwoScene, HumanCampaignLevelThreeScene, HumanCampaignLevelFourScene, HumanCampaignLevelFiveScene, HumanCampaignLevelSixScene, GameScene],
     scale: {
         zoom: 1.3
     }
@@ -24,6 +24,7 @@ const game = new Phaser.Game(config);
 
 let gameState = {
     humanLevel: 1,
+    
     alienDrone: {
         Tsprite: 'aliendrone',
         Tcost: 50,
@@ -90,7 +91,7 @@ let gameState = {
     },
     
     
-   humanTrooper: {
+    humanTrooper: {
         Tsprite: 'humantrooper',
         Tcost: 20,
         Tdepth : 0,
@@ -119,7 +120,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'splash',
-        TsplashRange: 40,
+        TsplashRange: 60,
         TbulletSprite: 'bullet3'
     },
     humanBattleCruiser: {
@@ -137,6 +138,22 @@ let gameState = {
         TattackType: 'single',
         TsplashRange: 0,
         TbulletSprite: 'bullet5'
+    },
+    humanMech: {
+        Tsprite: 'humanmech',
+        Tcost: 100,
+        Tdepth : 0,
+        Tdamage: 4,
+        Thealth: 100,
+        TattackSpeed : 200,
+        TSpeed : 70,
+        Trange: 200,
+        TprojectileSpeed: 1500,
+        TunitType: 'ground',
+        TtargetType: 'ground&air',
+        TattackType: 'single',
+        TsplashRange: 0,
+        TbulletSprite: 'bullet2'
     },
     
     demonCrawler: {
@@ -201,7 +218,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'splash',
-        TsplashRange: 5,
+        TsplashRange: 10,
         TbulletSprite: 'bullet8'
     },
     entossGiant: {
@@ -217,7 +234,7 @@ let gameState = {
         TunitType: 'ground',
         TtargetType: 'ground',
         TattackType: 'splash',
-        TsplashRange: 20,
+        TsplashRange: 30,
         TbulletSprite: 'bullet8'
     },
     entossBird: {

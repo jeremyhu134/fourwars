@@ -12,6 +12,9 @@ class MenuScene extends Phaser.Scene {
         this.load.image('startButton','heroimages/startButton.png');
         this.load.image('backButton','heroimages/backButton.png');
         this.load.image('canyonBg','heroimages/canyonBg.png');
+        this.load.image('canyonCaveBg','heroimages/canyonCaveBg.png');
+        this.load.image('caveBg','heroimages/caveBg.png');
+        
         
         this.load.image('alienBanner','heroimages/alienBanner.png');
         this.load.image('humanBanner','heroimages/humanBanner.png');
@@ -45,11 +48,13 @@ class MenuScene extends Phaser.Scene {
         this.load.image('humantrooper','heroimages/humantrooper.png');
         this.load.image('humantank','heroimages/humantank.png');
         this.load.image('humanbattlecruiser','heroimages/humanbattlecruiser.png');
+        this.load.image('humanmech','heroimages/humanmech.png');
         
         this.load.image('humanhqred','heroimages/humanhqred.png');
         this.load.image('humantrooperred','heroimages/humantrooperred.png');
         this.load.image('humantankred','heroimages/humantankred.png');
         this.load.image('humanbattlecruiserred','heroimages/humanbattlecruiserred.png');
+        this.load.image('humanmechred','heroimages/humanmechred.png');
         
         this.load.image('demonhq','heroimages/demonhq.png');
         this.load.image('demoncrawler','heroimages/demoncrawler.png');
@@ -352,6 +357,18 @@ class GameScene extends Phaser.Scene {
                     }
                 });
                 selectElement = scene.add.text( 160, 470, `${gameState.humanBattleCruiser.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
+                gameState.shopElements.push(selectElement);
+                
+                selectElement = scene.add.image(230,420,gameState.humanMech.Tsprite).setOrigin(0,0).setDepth(2).setInteractive();
+                selectElement.setScale(40/selectElement.displayHeight);
+                gameState.shopElements.push(selectElement);
+                selectElement.on('pointerdown', function(pointer){
+                    if(gameState.gold >= gameState.humanMech.Tcost){
+                       gameState.gold -= gameState.humanMech.Tcost; gameState.createTroop(gameState.globalScene,gameState.humanMech.Tsprite,gameState.humanMech.Tdepth,1,-100,Math.ceil(Math.random()*100)+150,gameState.humanMech.Thealth,gameState.humanMech.Tdamage,gameState.humanMech.TSpeed,gameState.humanMech.TattackSpeed,
+                    gameState.humanMech.Trange,gameState.humanMech.TprojectileSpeed,gameState.humanMech.TunitType,gameState.humanMech.TtargetType,gameState.humanMech.TattackType,gameState.humanMech.TbulletSprite,gameState.humanMech.TsplashRange);
+                    }
+                });
+                selectElement = scene.add.text( 230, 470, `${gameState.humanMech.Tcost}g`, {fill: '#OOOOOO', fontSize: '15px'}).setDepth(2);
                 gameState.shopElements.push(selectElement);
             }
             else if(gameState.faction == "alien"){
