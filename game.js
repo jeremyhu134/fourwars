@@ -14,7 +14,7 @@ const config = {
             //debug: true
         }
     },
-    scene:[MenuScene, CampaignScene, SkirmishScene, HumanMissionBriefingScene, HumanCampaignLevelOneScene, HumanCampaignLevelTwoScene, HumanCampaignLevelThreeScene, HumanCampaignLevelFourScene, HumanCampaignLevelFiveScene, HumanCampaignLevelSixScene, GameScene],
+    scene:[MenuScene, CampaignScene, SkirmishScene, HumanMissionBriefingScene, HumanCampaignLevelOneScene, HumanCampaignLevelTwoScene, HumanCampaignLevelThreeScene, HumanCampaignLevelFourScene, HumanCampaignLevelFiveScene, HumanCampaignLevelSixScene, HumanCampaignLevelSevenScene, GameScene],
     scale: {
         zoom: 1.3
     }

@@ -13,6 +13,7 @@ class MenuScene extends Phaser.Scene {
         this.load.image('backButton','heroimages/backButton.png');
         this.load.image('canyonBg','heroimages/canyonBg.png');
         this.load.image('canyonCaveBg','heroimages/canyonCaveBg.png');
+        this.load.image('canyonCave2Bg','heroimages/canyonCave2Bg.png');
         this.load.image('caveBg','heroimages/caveBg.png');
         
         
